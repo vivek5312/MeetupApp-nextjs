@@ -1,6 +1,7 @@
 import { json } from 'react-router-dom';
 import NewMeetupForm from '../../components/meetups/NewMeetupForm';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 export default function (){
     const router=useRouter();
  
@@ -20,7 +21,10 @@ export default function (){
 
     return (
         <div>
-            
+             <Head>
+        <title>Next Js  Add Meetup </title>
+        <meta name='description' content='Add meetup place according to your choice'></meta>
+      </Head>
             <NewMeetupForm  onAddMeetup={AddMeetupHandler}/>
             
         </div>

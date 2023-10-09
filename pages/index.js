@@ -1,5 +1,6 @@
 import MeetupList from '../components/meetups/MeetupList';
 import { MongoClient } from 'mongodb';
+import Head from 'next/head';
 
 const Dummy_Meetup = [
   {
@@ -19,6 +20,10 @@ const Dummy_Meetup = [
 export default function MeetupPage(props) {
   return (
     <div>
+      <Head>
+        <title>Next Js Meetup</title>
+        <meta name='description' content='Browser huge list of Next Js Meetup Oraginizer'></meta>
+      </Head>
       <MeetupList meetups={props.meetups} />
     </div>
   );
