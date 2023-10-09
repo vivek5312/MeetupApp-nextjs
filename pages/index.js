@@ -1,17 +1,18 @@
 import MeetupList from '../components/meetups/MeetupList';
+import { MongoClient } from 'mongodb';
 
 const Dummy_Meetup = [
   {
-    id:'a1',
+    id: 'a1',
     title: 'A first meetup',
     image: 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Phyang_Monastery_01.jpg',
-    des: 'This is first meetup',
+    des: 'This is the first meetup',
   },
   {
     id: 'a2',
-    title: 'A first meetup',
+    title: 'A second meetup',
     image: 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Phyang_Monastery_01.jpg',
-    des: 'This is first meetup',
+    des: 'This is the second meetup',
   },
 ];
 
@@ -22,24 +23,24 @@ export default function MeetupPage(props) {
     </div>
   );
 }
-export async function getServerSideProps(context){
- 
-    const req=context.req;
-    const res=context.res;
 
-    return{
-        props:{
-            meetups: Dummy_Meetup,
-        }
-    }
-}
+export async function getStaticProps() {
+  // Fetch data from MongoDB
+  const client = await MongoClient.connect('mongodb+srv://vivek5312707:5312707@cluster0.6nrsruz.mongodb.net/meetups?retryWrites=true&w=majority&appName=AtlasApp');
+  const db = client.db();
+  const meetupCollection = db.collection('meetups');
+  const meetups = await meetupCollection.find().toArray();
+  client.close();
 
-/*export async function getStaticProps() {
-  // Fetch API
   return {
     props: {
-      meetups: Dummy_Meetup,
+      meetups: meetups.map((meetup) => ({
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image,
+        id: meetup._id.toString(),
+      })),
     },
+    revalidate:1
   };
 }
-*/
